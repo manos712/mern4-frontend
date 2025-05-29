@@ -1,43 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Container, Typography, List, ListItem, ListItemText } from '@mui/material';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import EditAccount from './pages/EditAccount';
+import AddAccount from './pages/AddAccount';
+
+// Future: import AddAccount, DeleteAccount, ViewAccount from './pages/...'
 
 function App() {
-  const [accounts, setAccounts] = useState([]);
-
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const res = await axios.get(import.meta.env.VITE_API_BASE);
-        setAccounts(res.data);
-      } catch (err) {
-        toast.error('Failed to fetch accounts');
-        console.error(err);
-      }
-    };
-
-    fetchAccounts();
-  }, []);
-
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Accounts List
-      </Typography>
-      <List>
-        {accounts.map((account) => (
-          <ListItem key={account.account_id}>
-            <ListItemText
-              primary={`${account.account_name} (ID: ${account.account_id})`}
-              secondary={account.postal_address}
-            />
-          </ListItem>
-        ))}
-      </List>
-      <ToastContainer />
-    </Container>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/edit" element={<EditAccount />} />
+        <Route path="/new" element={<AddAccount />} />
+        {/* <Route path="/new" element={<AddAccount />} /> */}
+        {/* <Route path="/delete" element={<DeleteAccount />} /> */}
+        {/* <Route path="/view" element={<ViewAccount />} /> */}
+      </Routes>
+    </Router>
   );
 }
 

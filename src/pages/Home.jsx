@@ -70,63 +70,88 @@ function Home() {
     }
   };
 
-  return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Accounts CRUD
-      </Typography>
+ return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        minHeight: '100vh',
+        paddingTop: '80px', // to offset fixed navbar
+        backgroundColor: '#f9f9f9',
+      }}
+    >
+      <Container maxWidth="md">
+        <Typography variant="h4" align="center" gutterBottom>
+          Accounts CRUD
+        </Typography>
 
-      <Box component="form" sx={{ mb: 4 }}>
-        <Stack spacing={2} direction="column">
-          <TextField
-            label="Account ID"
-            name="account_id"
-            value={form.account_id}
-            onChange={handleChange}
-            disabled={editing} // Do not allow changing ID on edit
-          />
-          <TextField
-            label="Account Name"
-            name="account_name"
-            value={form.account_name}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Postal Address"
-            name="postal_address"
-            value={form.postal_address}
-            onChange={handleChange}
-          />
-          <Button
-            variant="contained"
-            color={editing ? 'secondary' : 'primary'}
-            onClick={editing ? handleUpdate : handleAdd}
-          >
-            {editing ? 'Update Account' : 'Add Account'}
-          </Button>
-        </Stack>
-      </Box>
-
-      <List>
-        {accounts.map((acc) => (
-          <ListItem key={acc.account_id} divider>
-            <ListItemText
-              primary={`${acc.account_name} (ID: ${acc.account_id})`}
-              secondary={acc.postal_address}
+        <Box sx={{ mb: 4 }}>
+          <Stack spacing={2}>
+            <TextField
+              label="Account ID"
+              name="account_id"
+              value={form.account_id}
+              onChange={handleChange}
+              disabled={editing}
+              fullWidth
             />
-            <Button variant="outlined" color="info" onClick={() => handleEdit(acc)} sx={{ mr: 1 }}>
-              Edit
+            <TextField
+              label="Account Name"
+              name="account_name"
+              value={form.account_name}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              label="Postal Address"
+              name="postal_address"
+              value={form.postal_address}
+              onChange={handleChange}
+              fullWidth
+            />
+            <Button
+              variant="contained"
+              color={editing ? 'secondary' : 'primary'}
+              onClick={editing ? handleUpdate : handleAdd}
+            >
+              {editing ? 'Update Account' : 'Add Account'}
             </Button>
-            <Button variant="outlined" color="error" onClick={() => handleDelete(acc.account_id)}>
-              Delete
-            </Button>
-          </ListItem>
-        ))}
-      </List>
+          </Stack>
+        </Box>
 
-      <ToastContainer />
-    </Container>
+        <List>
+          {accounts.map((acc) => (
+            <ListItem key={acc.account_id} divider disablePadding>
+              <ListItemText
+                primary={`${acc.account_name} (ID: ${acc.account_id})`}
+                secondary={acc.postal_address}
+                sx={{ pr: 2 }}
+              />
+              <Button
+                variant="outlined"
+                color="info"
+                onClick={() => handleEdit(acc)}
+                sx={{ mr: 1 }}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => handleDelete(acc.account_id)}
+              >
+                Delete
+              </Button>
+            </ListItem>
+          ))}
+        </List>
+
+        <ToastContainer />
+      </Container>
+    </Box>
   );
+
 }
 
 export default Home;
